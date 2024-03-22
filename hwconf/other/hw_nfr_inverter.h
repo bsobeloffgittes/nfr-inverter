@@ -1,7 +1,7 @@
 #ifndef HW_NFR_H_
 #define HW_NFR_H_
 
-#define HW_NAME					"NFR"
+#define HW_NAME					"NFR_INVERTER"
 
 
 // WTF if this I have no idea lol
