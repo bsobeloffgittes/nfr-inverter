@@ -105,17 +105,17 @@
 #ifndef V_REG
 #define V_REG					3.3
 #endif
-// #ifndef VIN_R1
-// #define VIN_R1					39000.0
-// #endif
-// #ifndef VIN_R2
-// #define VIN_R2					2200.0
-// #endif
-// Defined in V/V
-#ifndef VOLT_AMP_GAIN
-#define VOLT_AMP_GAIN           0.00509014
+#ifndef VIN_R1
+#define VIN_R1					195.4583
 #endif
-// Gain for voltage across shunt
+#ifndef VIN_R2
+#define VIN_R2					1
+#endif
+// Defined in V/V
+// #ifndef VOLT_AMP_GAIN
+// #define VOLT_AMP_GAIN           0.00509014
+// #endif
+// // Gain for voltage across shunt
 #ifndef CURRENT_AMP_GAIN
 #define CURRENT_AMP_GAIN		45.1
 #endif
@@ -124,7 +124,7 @@
 #endif
 
 // Input voltage 
-#define GET_INPUT_VOLTAGE()		((V_REG / 4095.0) * (float)ADC_Value[ADC_IND_VIN_SENS] / VOLT_AMP_GAIN)
+#define GET_INPUT_VOLTAGE()		((V_REG / 4095.0) * (float)ADC_Value[ADC_IND_VIN_SENS] * ((VIN_R1 + VIN_R2) / VIN_R2))
 
 // NTC Termistors - CHANGE THIS!!!! ---------------------------------------------------------------------------------------------------------------------------------
 #define NTC_RES(adc_val)		((4095.0 * 10000.0) / adc_val - 10000.0)
