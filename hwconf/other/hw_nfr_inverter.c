@@ -4,7 +4,7 @@
 #include "hal.h"
 #include "stm32f4xx_conf.h"
 #include "utils_math.h"
-#include "drv8301.h"
+// #include "drv8301.h"
 #include "terminal.h"
 #include "commands.h"
 #include "mc_interface.h"
@@ -14,7 +14,7 @@
 static volatile bool i2c_running = false;
 // Not sure what these are for
 static mutex_t shutdown_mutex;
-static float bt_diff = 0.0;
+// static float bt_diff = 0.0;
 
 // I2C configuration
 static const I2CConfig i2cfg = {
@@ -24,8 +24,8 @@ static const I2CConfig i2cfg = {
 };
 
 
-static void terminal_shutdown_now(int argc, const char **argv);
-static void terminal_button_test(int argc, const char **argv);
+// static void terminal_shutdown_now(int argc, const char **argv);
+// static void terminal_button_test(int argc, const char **argv);
 
 void hw_init_gpio(void) {
 
@@ -119,20 +119,20 @@ void hw_init_gpio(void) {
 
 
     // Maybe get rid of this?????? ------------------------------------------------------------------------------------------------------
-	drv8301_init();
+	// drv8301_init();
 
+	// Add this back for shutdown button functionality -------------------------------------------------------
+	// terminal_register_command_callback(
+	// 	"shutdown",
+	// 	"Shutdown VESC now.",
+	// 	0,
+	// 	terminal_shutdown_now);
 
-	terminal_register_command_callback(
-		"shutdown",
-		"Shutdown VESC now.",
-		0,
-		terminal_shutdown_now);
-
-	terminal_register_command_callback(
-		"test_button",
-		"Try sampling the shutdown button",
-		0,
-		terminal_button_test);
+	// terminal_register_command_callback(
+	// 	"test_button",
+	// 	"Try sampling the shutdown button",
+	// 	0,
+	// 	terminal_button_test);
 
 }
 
@@ -277,42 +277,42 @@ void hw_try_restore_i2c(void) {
 }
 
 
-// Not sure if anything past this point is needed
-bool hw_sample_shutdown_button(void) {
-	chMtxLock(&shutdown_mutex);
+// // Not sure if anything past this point is needed
+// bool hw_sample_shutdown_button(void) {
+// 	chMtxLock(&shutdown_mutex);
 
-	bt_diff = 0.0;
+// 	bt_diff = 0.0;
 
-	for (int i = 0;i < 3;i++) {
-		palSetPadMode(HW_SHUTDOWN_GPIO, HW_SHUTDOWN_PIN, PAL_MODE_INPUT_ANALOG);
-		chThdSleep(5);
-		float val1 = ADC_VOLTS(ADC_IND_SHUTDOWN);
-		chThdSleepMilliseconds(1);
-		float val2 = ADC_VOLTS(ADC_IND_SHUTDOWN);
-		palSetPadMode(HW_SHUTDOWN_GPIO, HW_SHUTDOWN_PIN, PAL_MODE_OUTPUT_PUSHPULL);
-		chThdSleepMilliseconds(1);
+// 	for (int i = 0;i < 3;i++) {
+// 		palSetPadMode(HW_SHUTDOWN_GPIO, HW_SHUTDOWN_PIN, PAL_MODE_INPUT_ANALOG);
+// 		chThdSleep(5);
+// 		float val1 = ADC_VOLTS(ADC_IND_SHUTDOWN);
+// 		chThdSleepMilliseconds(1);
+// 		float val2 = ADC_VOLTS(ADC_IND_SHUTDOWN);
+// 		palSetPadMode(HW_SHUTDOWN_GPIO, HW_SHUTDOWN_PIN, PAL_MODE_OUTPUT_PUSHPULL);
+// 		chThdSleepMilliseconds(1);
 
-		bt_diff += (val1 - val2);
-	}
+// 		bt_diff += (val1 - val2);
+// 	}
 
-	chMtxUnlock(&shutdown_mutex);
+// 	chMtxUnlock(&shutdown_mutex);
 
-	return (bt_diff > 0.12);
-}
+// 	return (bt_diff > 0.12);
+// }
 
-static void terminal_shutdown_now(int argc, const char **argv) {
-	(void)argc;
-	(void)argv;
-	DISABLE_GATE();
-	HW_SHUTDOWN_HOLD_OFF();
-}
+// static void terminal_shutdown_now(int argc, const char **argv) {
+// 	(void)argc;
+// 	(void)argv;
+// 	DISABLE_GATE();
+// 	HW_SHUTDOWN_HOLD_OFF();
+// }
 
-static void terminal_button_test(int argc, const char **argv) {
-	(void)argc;
-	(void)argv;
+// static void terminal_button_test(int argc, const char **argv) {
+// 	(void)argc;
+// 	(void)argv;
 
-	for (int i = 0;i < 40;i++) {
-		commands_printf("BT: %d %.2f", HW_SAMPLE_SHUTDOWN(), (double)bt_diff);
-		chThdSleepMilliseconds(100);
-	}
-}
+// 	for (int i = 0;i < 40;i++) {
+// 		commands_printf("BT: %d %.2f", HW_SAMPLE_SHUTDOWN(), (double)bt_diff);
+// 		chThdSleepMilliseconds(100);
+// 	}
+// }

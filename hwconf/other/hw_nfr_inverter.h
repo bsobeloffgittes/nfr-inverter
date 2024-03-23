@@ -4,13 +4,13 @@
 #define HW_NAME					"NFR_INVERTER"
 
 
-// WTF if this I have no idea lol
+// This doesn't seem to be referenced anywhere so probably not needed
 #define HW_MAJOR				1
 #define HW_MINOR				0
 
 
 // HW PROPERTIES
-#define HW_HAS_DRV8301 // Not sure about this - might be good for fault stuff but don't want SPI? ------------------------------------
+// #define HW_HAS_DRV8301 // Not sure about this - might be good for fault stuff but don't want SPI?
 #define HW_HAS_3_SHUNTS
 #define HW_HAS_PHASE_SHUNTS
 // got rid of property "permanent NRF"
@@ -42,21 +42,22 @@
 
 // Ignoring sensor port voltage control
 
-// Not sure if shutdown pin is needed because it's left floating on hardware ---------------------------------------------------------
-// Shutdown pin
-#define HW_SHUTDOWN_GPIO		GPIOC
-#define HW_SHUTDOWN_PIN			5
-#define HW_SHUTDOWN_HOLD_ON()	palSetPad(HW_SHUTDOWN_GPIO, HW_SHUTDOWN_PIN)
-#define HW_SHUTDOWN_HOLD_OFF()	palClearPad(HW_SHUTDOWN_GPIO, HW_SHUTDOWN_PIN)
-#define HW_SAMPLE_SHUTDOWN()	hw_sample_shutdown_button()
+// // Not sure if shutdown pin is needed because it's left floating on hardware ---------------------------------------------------------
+// // Shutdown pin
+// #define HW_SHUTDOWN_GPIO		GPIOC
+// #define HW_SHUTDOWN_PIN			5
+// #define HW_SHUTDOWN_HOLD_ON()	palSetPad(HW_SHUTDOWN_GPIO, HW_SHUTDOWN_PIN)
+// #define HW_SHUTDOWN_HOLD_OFF()	palClearPad(HW_SHUTDOWN_GPIO, HW_SHUTDOWN_PIN)
+// #define HW_SAMPLE_SHUTDOWN()	hw_sample_shutdown_button()
 
-// Hold shutdown pin early to wake up on short pulses
+/* // Hold shutdown pin early to wake up on short pulses
 #define HW_EARLY_INIT()			palSetPadMode(HW_SHUTDOWN_GPIO, HW_SHUTDOWN_PIN, PAL_MODE_OUTPUT_PUSHPULL); \
 								HW_SHUTDOWN_HOLD_ON(); \
 								palSetPadMode(GPIOD, 2, \
 								PAL_MODE_OUTPUT_PUSHPULL | \
 								PAL_STM32_OSPEED_HIGHEST); \
 								CURRENT_FILTER_ON()
+*/
 
 
 
@@ -222,15 +223,15 @@
 #define HW_SPI_PORT_MISO		GPIOA
 #define HW_SPI_PIN_MISO			6
 
-// SPI for DRV8301 - probably get rid of this???? ----------------------------------------------------------------------------------------------------------------------
-#define DRV8301_MOSI_GPIO		GPIOB
-#define DRV8301_MOSI_PIN		4
-#define DRV8301_MISO_GPIO		GPIOB
-#define DRV8301_MISO_PIN		3
-#define DRV8301_SCK_GPIO		GPIOC
-#define DRV8301_SCK_PIN			10
-#define DRV8301_CS_GPIO			GPIOC
-#define DRV8301_CS_PIN			9
+// // SPI for DRV8301 - probably get rid of this????
+// #define DRV8301_MOSI_GPIO		GPIOB
+// #define DRV8301_MOSI_PIN		4
+// #define DRV8301_MISO_GPIO		GPIOB
+// #define DRV8301_MISO_PIN		3
+// #define DRV8301_SCK_GPIO		GPIOC
+// #define DRV8301_SCK_PIN			10
+// #define DRV8301_CS_GPIO			GPIOC
+// #define DRV8301_CS_PIN			9
 
 // Ignoring MPU950
 
