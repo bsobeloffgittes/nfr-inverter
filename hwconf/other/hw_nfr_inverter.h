@@ -251,6 +251,9 @@
 #define READ_HALL2()			palReadPad(HW_HALL_ENC_GPIO2, HW_HALL_ENC_PIN2)
 #define READ_HALL3()			palReadPad(HW_HALL_ENC_GPIO3, HW_HALL_ENC_PIN3)
 
+// Override dead time. See the stm32f4 reference manual for calculating this value.
+#define HW_DEAD_TIME_NSEC					1400.0
+
 // Default setting overrides
 #ifndef MCCONF_DEFAULT_MOTOR_TYPE
 #define MCCONF_DEFAULT_MOTOR_TYPE		MOTOR_TYPE_FOC
